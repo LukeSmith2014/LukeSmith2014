@@ -155,6 +155,6 @@ class StowagePipelineStack(Stack):
 if __name__ == "__main__":
     from aws_cdk import App, Environment
 
-    app = App(context={'bootstrapQualifier': 'customcdk'})
+    app = App()
     StowagePipelineStack(app, "StowagePipelineStack")
     app.synth()
