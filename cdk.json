@@ -1,6 +1,3 @@
 {
-  "app": "python iac_matson_consignee_stowage_prediction.py",
-  "context": {
-    "bootstrapQualifier": "customcdk"
-  }
+  "app": "python3 iac_matson_consignee_stowage_prediction.py"
 }
