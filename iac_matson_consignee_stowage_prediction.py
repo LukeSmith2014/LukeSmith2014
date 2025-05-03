@@ -141,6 +141,7 @@ class StowagePipelineStack(Stack):
                     instance_type='ml.t2.medium',
                     model_name=model.ref,
                     variant_name='AllTraffic'
+                )
             ],
             endpoint_config_name="stowage-endpoint-config"
         )
