@@ -1,0 +1,6 @@
+lightgbm==3.3.5
+scikit-learn
+pandas
+joblib
+aws-cdk-lib
+constructs
