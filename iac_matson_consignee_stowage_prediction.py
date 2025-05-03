@@ -149,3 +149,10 @@ class StowagePipelineStack(Stack):
             endpoint_config_name=endpoint_config.endpoint_config_name,
             endpoint_name="stowage-priority-endpoint"
         )
+
+if __name__ == "__main__":
+    from aws_cdk import App
+
+    app = App()
+    StowagePipelineStack(app, "StowagePipelineStack")
+    app.synth()
