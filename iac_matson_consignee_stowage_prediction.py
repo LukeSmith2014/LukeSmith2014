@@ -129,7 +129,7 @@ class StowagePipelineStack(Stack):
         # Define SageMaker Model
         model = sagemaker.CfnModel(
             self, "StowageModel",
-            model_name="stowage-priority-model",
+            model_name = f"stowage-priority-model-{self.stack_name.lower()}",
             execution_role_arn=sagemaker_role.role_arn,
             primary_container=sagemaker.CfnModel.ContainerDefinitionProperty(
                 image=container_image,
