@@ -152,7 +152,7 @@ class StowagePipelineStack(Stack):
 
         endpoint = sagemaker.CfnEndpoint(
             self, "StowageEndpoint",
-            endpoint_name="stowage-priority-endpoint",
+            endpoint_name="stowage-priority-endpoint-v1",
             endpoint_config_name=endpoint_config.endpoint_config_name
         )
         endpoint.add_dependency(endpoint_config)
