@@ -143,7 +143,7 @@ class StowagePipelineStack(Stack):
             production_variants=[{
                 "initialInstanceCount": 1,
                 "instanceType": "ml.t2.medium",
-                "modelName": model.model_name,
+                "modelName": model.ref,
                 "variantName": "AllTraffic"
             }]
         )
