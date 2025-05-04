@@ -131,10 +131,10 @@ class StowagePipelineStack(Stack):
             self, "StowageModel",
             model_name="stowage-priority-model",
             execution_role_arn=sagemaker_role.role_arn,
-            primary_container={
-                "Image": container_image,
-                "ModelDataUrl": model_artifact
-            }
+            primary_container=sagemaker.CfnModel.ContainerDefinitionProperty(
+                image=container_image,
+                model_data_url=model_artifact
+            )
         )
 
         endpoint_config = sagemaker.CfnEndpointConfig(
