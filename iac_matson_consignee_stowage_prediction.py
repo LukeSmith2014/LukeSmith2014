@@ -115,7 +115,7 @@ class StowagePipelineStack(Stack):
 
         # SageMaker Model Setup
         model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
-        container_image = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-lightgbm:3.3-cpu-py3"
+        container_image = "744763866009.dkr.ecr.us-east-1.amazonaws.com/lukesmith2014:latest"
 
         model_name = "stowage-priority-model"
 
