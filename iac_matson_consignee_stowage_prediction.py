@@ -114,8 +114,8 @@ class StowagePipelineStack(Stack):
         self.http_api_url = http_api.url
 
         # SageMaker Model Setup
-        model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
-
+        model_artifact = "s3://matson-cleaned-files-744763866009/models/stowage-priority/model.tar.gz"
+        
         sagemaker_role = iam.Role(
             self, "SageMakerExecutionRole",
             assumed_by=iam.ServicePrincipal("sagemaker.amazonaws.com"),
@@ -129,7 +129,7 @@ class StowagePipelineStack(Stack):
             execution_role_arn=sagemaker_role.role_arn,
             model_name="stowage-priority-model",
             primary_container={
-                "Image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+                "Image": "246618743249.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
                 "ModelDataUrl": model_artifact
             }
             
