@@ -131,28 +131,30 @@ class StowagePipelineStack(Stack):
             primary_container={
                 "Image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
                 "ModelDataUrl": model_artifact
-            },
+            }
             
         )
 
         endpoint_config = sagemaker.CfnEndpointConfig(
-    self,
-    "StowageEndpointConfig",
-    endpoint_config_name="stowage-endpoint-config",
-    production_variants=[{
-        "initialInstanceCount": 1,
-        "instanceType": "ml.t2.medium",
-        "modelName": model.ref,
-        "variantName": "AllTraffic"
-    }]
-    
-)
+            self,
+            "StowageEndpointConfig",
+            endpoint_config_name="stowage-endpoint-config",
+            production_variants=[{
+                "initialInstanceCount": 1,
+                "instanceType": "ml.t2.medium",
+                "modelName": model.ref,
+                "variantName": "AllTraffic"
+            }]
+            
+        )
+        endpoint_config.add_dependency(model)
 
         endpoint = sagemaker.CfnEndpoint(
             self, "StowageEndpoint",
             endpoint_name="stowage-priority-endpoint",
-            endpoint_config_name=endpoint_config.endpoint_config_name
+            endpoint_config_name=endpoint_config.ref
         )
+        endpoint.add_dependency(endpoint_config)
 
 if __name__ == "__main__":
     from aws_cdk import App, Environment
