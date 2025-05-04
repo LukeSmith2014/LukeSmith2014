@@ -28,8 +28,8 @@ class StowagePipelineStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # S3 Buckets
-        raw_bucket = s3.Bucket(self, "RawContainerInputs", bucket_name="raw-container-inputs")
-        cleaned_bucket = s3.Bucket(self, "CleanedContainerFiles", bucket_name="matson-cleaned-files")
+        raw_bucket = s3.Bucket(self, "RawContainerInputs", bucket_name="raw-container-inputs-{self.account}")
+        cleaned_bucket = s3.Bucket(self, "CleanedContainerFiles", bucket_name="matson-cleaned-files={self.account}")
 
         # Lambda Role (shared for all)
         lambda_role = iam.Role(
@@ -134,17 +134,18 @@ class StowagePipelineStack(Stack):
         )
 
         endpoint_config = sagemaker.CfnEndpointConfig(
-            self, "StowageEndpointConfig",
-            production_variants=[
-                sagemaker.CfnEndpointConfig.ProductionVariantProperty(
-                    initial_instance_count=1,
-                    instance_type='ml.t2.medium',
-                    model_name=model.ref,
-                    variant_name='AllTraffic'
-                )
-            ],
-            endpoint_config_name="stowage-endpoint-config"
-        )
+    self,
+    "StowageEndpointConfig",
+    production_variants=[
+        {
+            "initialInstanceCount": 1,
+            "instanceType": "ml.t2.medium",
+            "modelName": model.attr_model_name,
+            "variantName": "AllTraffic",
+        }
+    ],
+    endpoint_config_name="stowage-endpoint-config"
+)
 
         endpoint = sagemaker.CfnEndpoint(
             self, "StowageEndpoint",
