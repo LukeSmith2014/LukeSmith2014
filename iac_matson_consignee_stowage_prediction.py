@@ -142,7 +142,7 @@ class StowagePipelineStack(Stack):
             production_variants=[{
                 "initialInstanceCount": 1,
                 "instanceType": "ml.t2.medium",
-                "modelName": model.ref,
+                "modelName": model.attr_model_name,
                 "variantName": "AllTraffic"
             }]
             
@@ -152,7 +152,7 @@ class StowagePipelineStack(Stack):
         endpoint = sagemaker.CfnEndpoint(
             self, "StowageEndpoint",
             endpoint_name="stowage-priority-endpoint",
-            endpoint_config_name=endpoint_config.ref
+            endpoint_config_name=endpoint_config.endpoint_config_name
         )
         endpoint.add_dependency(endpoint_config)
 
