@@ -114,8 +114,10 @@ class StowagePipelineStack(Stack):
         self.http_api_url = http_api.url
 
         # SageMaker Model Setup
-        model_artifact = "s3://matson-cleaned-files-744763866009/models/stowage-priority/model.tar.gz"
+        model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
+        container_image = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
         
+        # IAM role for SageMaker
         sagemaker_role = iam.Role(
             self, "SageMakerExecutionRole",
             assumed_by=iam.ServicePrincipal("sagemaker.amazonaws.com"),
@@ -123,19 +125,20 @@ class StowagePipelineStack(Stack):
                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess")
             ]
         )
-
+        
+        # Define SageMaker Model
         model = sagemaker.CfnModel(
             self, "StowageModel",
-            execution_role_arn=sagemaker_role.role_arn,
             model_name="stowage-priority-model",
+            execution_role_arn=sagemaker_role.role_arn,
             primary_container={
-                "Image": "246618743249.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
-                "ModelDataUrl": model_artifact}    
+                "Image": container_image,
+                "ModelDataUrl": model_artifact
+            }
         )
 
         endpoint_config = sagemaker.CfnEndpointConfig(
-            self,
-            "StowageEndpointConfig",
+            self, "StowageEndpointConfig",
             endpoint_config_name="stowage-endpoint-config",
             production_variants=[{
                 "initialInstanceCount": 1,
@@ -143,7 +146,6 @@ class StowagePipelineStack(Stack):
                 "modelName": model.model_name,
                 "variantName": "AllTraffic"
             }]
-            
         )
         endpoint_config.add_dependency(model)
 
