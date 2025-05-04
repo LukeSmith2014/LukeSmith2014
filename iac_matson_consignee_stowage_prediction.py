@@ -12,6 +12,7 @@ Original file is located at
 from aws_cdk import (
     Stack,
     Duration,
+    Aws,
     aws_s3 as s3,
     aws_lambda as _lambda,
     aws_iam as iam,
@@ -28,8 +29,8 @@ class StowagePipelineStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # S3 Buckets
-        raw_bucket = s3.Bucket(self, "RawContainerInputs", bucket_name="raw-container-inputs-{self.account}")
-        cleaned_bucket = s3.Bucket(self, "CleanedContainerFiles", bucket_name="matson-cleaned-files={self.account}")
+        raw_bucket = s3.Bucket(self, "RawContainerInputs", bucket_name=f"raw-container-inputs-{Aws.ACCOUNT_ID}")
+        cleaned_bucket = s3.Bucket(self, "CleanedContainerFiles", bucket_name=f"matson-cleaned-files={Aws.ACCOUNT_ID}")
 
         # Lambda Role (shared for all)
         lambda_role = iam.Role(
