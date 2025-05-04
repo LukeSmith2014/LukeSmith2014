@@ -116,6 +116,7 @@ class StowagePipelineStack(Stack):
         # SageMaker Model Setup
         model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
         container_image = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
+        model_name = f"stowage-priority-model-{self.stack_name.lower()}"
 
         # IAM role for SageMaker
         sagemaker_role = iam.Role(
@@ -129,7 +130,7 @@ class StowagePipelineStack(Stack):
         # Define SageMaker Model
         model = sagemaker.CfnModel(
             self, "StowageModel",
-            model_name = f"stowage-priority-model-{self.stack_name.lower()}",
+            model_name = model_name,
             execution_role_arn=sagemaker_role.role_arn,
             primary_container=sagemaker.CfnModel.ContainerDefinitionProperty(
                 image=container_image,
