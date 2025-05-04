@@ -116,7 +116,7 @@ class StowagePipelineStack(Stack):
         # SageMaker Model Setup
         model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
         container_image = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
-        model_name = f"stowage-priority-model-{Aws.ACCOUNT_ID}"
+        model_name = "stowage-priority-model"
 
         # IAM role for SageMaker
         sagemaker_role = iam.Role(
