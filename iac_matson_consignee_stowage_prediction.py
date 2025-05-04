@@ -130,9 +130,7 @@ class StowagePipelineStack(Stack):
             model_name="stowage-priority-model",
             primary_container={
                 "Image": "246618743249.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
-                "ModelDataUrl": model_artifact
-            }
-            
+                "ModelDataUrl": model_artifact}    
         )
 
         endpoint_config = sagemaker.CfnEndpointConfig(
