@@ -129,9 +129,11 @@ class StowagePipelineStack(Stack):
                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEC2ContainerRegistryReadOnly")
             ]
         )
-        
-        # Define SageMaker Model
+
+        # Build and reference the Docker container
         docker_image = DockerImageAsset(self, "StowageDockerImage", directory=".")
+
+        # Define the SageMaker Model
         model = CfnModel(
             self, "StowageModel",
             model_name=model_name,
@@ -142,18 +144,20 @@ class StowagePipelineStack(Stack):
             )
         )
 
+        # Create Endpoint Config
         endpoint_config = sagemaker.CfnEndpointConfig(
             self, "StowageEndpointConfig",
             endpoint_config_name="stowage-endpoint-config",
             production_variants=[{
                 "initialInstanceCount": 1,
                 "instanceType": "ml.t2.medium",
-                "modelName": "stowage-priority-model",
+                "modelName": model.model_name,
                 "variantName": "AllTraffic"
             }]
         )
         endpoint_config.add_dependency(model)
 
+        # Deploy Endpoint
         endpoint = sagemaker.CfnEndpoint(
             self, "StowageEndpoint",
             endpoint_name="stowage-priority-endpoint",
