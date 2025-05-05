@@ -124,7 +124,8 @@ class StowagePipelineStack(Stack):
             self, "SageMakerExecutionRole",
             assumed_by=iam.ServicePrincipal("sagemaker.amazonaws.com"),
             managed_policies=[
-                iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess")
+                iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"),
+                iam.ManagedPolicy.from_aws_managed_policy_name("AmazonEC2ContainerRegistryReadOnly")
             ]
         )
         
