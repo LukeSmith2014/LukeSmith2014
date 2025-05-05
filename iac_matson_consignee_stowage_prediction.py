@@ -158,10 +158,3 @@ class StowagePipelineStack(Stack):
             endpoint_config_name=endpoint_config.endpoint_config_name
         )
         endpoint.add_dependency(endpoint_config)
-
-if __name__ == "__main__":
-    from aws_cdk import App, Environment
-
-    app = App()
-    StowagePipelineStack(app, "StowagePipelineStack")
-    app.synth()
