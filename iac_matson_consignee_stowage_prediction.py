@@ -138,6 +138,7 @@ class StowagePipelineStack(Stack):
         )
         
         # Define SageMaker Model
+        docker_image = DockerImageAsset(self, "StowageDockerImage", directory=".")
         model = CfnModel(
             self, "StowageModel",
             model_name=model_name,
