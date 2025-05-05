@@ -118,13 +118,6 @@ class StowagePipelineStack(Stack):
 
         # SageMaker Model Setup
         model_artifact = "s3://amzn-s3-asu-matson-project/models/stowage-priority/model.tar.gz"
-        container_image = sagemaker.CfnModel.ContainerDefinitionProperty(
-            image_config=None,
-            image=sagemaker.ContainerImage.from_asset("container").image_uri,
-            model_data_url=model_artifact
-        )
-
-
         model_name = "stowage-priority-model"
 
         # IAM role for SageMaker
